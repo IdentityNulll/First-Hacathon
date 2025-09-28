@@ -35,7 +35,10 @@ exports.register = async (req, res) => {
 
     res.status(201).json({
       message: "User registered successfully",
-      userId: profile._id, 
+      id: profile._id, // use "id" instead of "userId"
+      email: profile.email,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
     });
   } catch (err) {
     console.error("Register error:", err);

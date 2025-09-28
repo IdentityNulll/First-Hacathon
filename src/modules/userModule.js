@@ -94,7 +94,7 @@ const ProfileSchema = new mongoose.Schema({
   deletedAt: Date,
 });
 
-// Indexes for geo and passport number (if needed hashed)
+
 ProfileSchema.index({ "address.location": "2dsphere" });
 
 module.exports = mongoose.model("Profile", ProfileSchema);
