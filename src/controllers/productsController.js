@@ -41,3 +41,13 @@ exports.getComments = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getAllProducts = async (req, res) => {
+    try {
+        
+
+    }
+    catch (err) {
+        res.status(500).json({ message: "Server error" });
+    }
+}
