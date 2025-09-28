@@ -22,7 +22,6 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const profile = new Profile({
@@ -36,10 +35,10 @@ exports.register = async (req, res) => {
 
     res.status(201).json({
       message: "User registered successfully",
-      userId: profile._id,
+      userId: profile._id, 
     });
   } catch (err) {
-    console.error("Register error:", err); 
+    console.error("Register error:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };

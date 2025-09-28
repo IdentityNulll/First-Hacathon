@@ -59,10 +59,14 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    const products = await Product.find({ user: userId }).sort({ createdAt: -1 });
+    const products = await Product.find({ user: userId }).sort({
+      createdAt: -1,
+    });
 
     if (!products.length)
-      return res.status(404).json({ message: "No products found for this user" });
+      return res
+        .status(404)
+        .json({ message: "No products found for this user" });
 
     res.json(products);
   } catch (err) {
@@ -100,6 +104,44 @@ exports.deleteProduct = async (req, res) => {
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     res.json({ message: "Product deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+exports.createProduct = async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      requirement,
+      profit,
+      category,
+      creator, // userId who created it
+    } = req.body;
+
+    const newProduct = new Product({
+      name,
+      description,
+      requirement,
+      profit,
+      category,
+      creator,
+      balance: {
+        defaultBalance: 0,
+        activeBalance: 0,
+        amountBalance: 0,
+      },
+    });
+
+    await newProduct.save();
+
+    res.status(201).json({
+      message: "Product created successfully",
+      product: newProduct,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

@@ -56,13 +56,6 @@ const PassportSchema = new mongoose.Schema(
 );
 
 const ProfileSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: false,
-    index: true,
-    unique: true,
-  },
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
   middleName: String,
