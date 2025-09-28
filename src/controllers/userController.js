@@ -17,13 +17,12 @@ exports.register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    // Check if email already exists
     const existingUser = await Profile.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    // Hash password
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const profile = new Profile({
@@ -40,8 +39,8 @@ exports.register = async (req, res) => {
       userId: profile._id,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Register error:", err); 
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
