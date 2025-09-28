@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Routes
 const profileRoutes = require("./src/routes/userRoutes");
-const productRoutes = require("./src/routes/productRoutes"); // ✅ new
+const productRoutes = require("./src/routes/productRoutes"); 
 app.use("/api/users", profileRoutes);
 app.use("/api/products", productRoutes);
 
