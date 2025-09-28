@@ -11,19 +11,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+
 const profileRoutes = require("./src/routes/userRoutes");
 const productRoutes = require("./src/routes/productRoutes"); 
 app.use("/api/users", profileRoutes);
 app.use("/api/products", productRoutes);
 
-// MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 
-// HTTP + Socket.IO
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
@@ -35,7 +33,7 @@ io.on("connection", (socket) => {
   });
 });
 
-// Make io accessible in controllers
+
 app.set("io", io);
 
-server.listen(process.env.PORT, () => console.log("Server running on port 5000"));
+server.listen(process.env.PORT, () => console.log("Server running on port"));

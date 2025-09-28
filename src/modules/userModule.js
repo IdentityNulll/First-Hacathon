@@ -17,7 +17,7 @@ const PaymentMethodSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: ["card", "bank_transfer", "crypto", "other"],
-      required: true,
+      required: false,
     },
     label: String,
     token: String, // tokenized reference from payment provider
@@ -59,12 +59,12 @@ const ProfileSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
     index: true,
     unique: true,
   },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String, required: false },
+  lastName: { type: String, required: false },
   middleName: String,
   dateOfBirth: Date,
   gender: {
@@ -72,7 +72,7 @@ const ProfileSchema = new mongoose.Schema({
     enum: ["male", "female", "other", "unspecified"],
     default: "unspecified",
   },
-  email: { type: String, required: true, index: true, unique: true },
+  email: { type: String, required: false, index: true, unique: true },
   password: {type: String,}, 
   phone: String,
   avatar: { url: String, thumbUrl: String, storageProvider: String },

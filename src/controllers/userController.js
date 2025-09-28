@@ -87,3 +87,33 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Only allow safe fields
+    const allowedFields = ["firstName", "lastName", "email", "phone", "avatar"];
+    const updates = {};
+
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        updates[field] = req.body[field];
+      }
+    });
+
+    updates.updatedAt = new Date();
+
+    const user = await Profile.findByIdAndUpdate(id, updates, {
+      new: true,
+      runValidators: true,
+    }).select("-password");
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.json({ message: "User updated successfully", user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
