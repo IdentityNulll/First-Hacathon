@@ -6,4 +6,10 @@ const productController = require("../controllers/productsController");
 router.post("/:id/comments", productController.addComment);
 router.get("/:id/comments", productController.getComments);
 
+// Products
+router.get("/", productController.getAllProducts);
+router.get("/user/:userId", productController.getProductsByUserId);
+router.put("/:id", productController.updateProduct);
+router.delete("/:id", productController.deleteProduct);
+
 module.exports = router;

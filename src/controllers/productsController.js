@@ -42,3 +42,66 @@ exports.getComments = async (req, res) => {
   }
 };
 
+// 🔹 Get all products
+exports.getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find()
+      .populate("user", "firstName lastName email")
+      .sort({ createdAt: -1 });
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// 🔹 Get products by user ID
+exports.getProductsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const products = await Product.find({ user: userId }).sort({ createdAt: -1 });
+
+    if (!products.length)
+      return res.status(404).json({ message: "No products found for this user" });
+
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// 🔹 Update product
+exports.updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const product = await Product.findByIdAndUpdate(id, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    res.json({ message: "Product updated", product });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// 🔹 Delete product
+exports.deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    res.json({ message: "Product deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
