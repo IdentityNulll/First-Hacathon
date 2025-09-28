@@ -38,4 +38,4 @@ io.on("connection", (socket) => {
 // Make io accessible in controllers
 app.set("io", io);
 
-server.listen(5000, () => console.log("Server running on port 5000"));
+server.listen(proccess.env.PORT, () => console.log("Server running on port 5000"));
